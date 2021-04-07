@@ -9,13 +9,13 @@ namespace BookwormFunctions.PorterLib
 	{
 		private const string TEXT_QUEUES_CONNECTION = "TextQueuesConnection";
 		private const string WORD_TOPICS_CONNECTION = "WordTopicsConnection";
-		private const string DETECT_LANGUAGE_CONNECTION = "DetectLanguageConnection";
+		private const string DETECT_LANGUAGE_API_KEY = "DetectLanguageApiKey";
 		public override void Configure(IFunctionsHostBuilder builder)
 		{
 			var config = builder.GetContext().Configuration;
 			var textQueuesConnectionString = config.GetConnectionString(TEXT_QUEUES_CONNECTION);
 			var wordTopicsConnectionString = config.GetConnectionString(WORD_TOPICS_CONNECTION);
-			var languageDetectorConnectionString = config.GetConnectionString(DETECT_LANGUAGE_CONNECTION);
+			var languageDetectorConnectionString = config[DETECT_LANGUAGE_API_KEY];
 			var porter = new Porter(new(textQueuesConnectionString, wordTopicsConnectionString), new(new(languageDetectorConnectionString)));
 			builder.Services.AddSingleton(porter);
 		}

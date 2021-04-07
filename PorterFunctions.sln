@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueuePorter", "QueuePorter\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PorterLib", "PorterLib\PorterLib.csproj", "{9E23051C-6460-414F-A8E6-EEC87A646E2A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpPorter", "HttpPorter\HttpPorter.csproj", "{F09C9760-0435-4D62-878D-19EE147981B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9E23051C-6460-414F-A8E6-EEC87A646E2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E23051C-6460-414F-A8E6-EEC87A646E2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E23051C-6460-414F-A8E6-EEC87A646E2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F09C9760-0435-4D62-878D-19EE147981B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F09C9760-0435-4D62-878D-19EE147981B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F09C9760-0435-4D62-878D-19EE147981B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F09C9760-0435-4D62-878D-19EE147981B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

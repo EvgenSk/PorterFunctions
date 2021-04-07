@@ -1,4 +1,5 @@
 using Azure.Messaging.ServiceBus;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.ServiceBus;
 using System;
 using System.Collections.Generic;
@@ -29,23 +30,21 @@ namespace BookwormFunctions.PorterLib
 			this.textPreprocessor = textPreprocessor;
 		}
 
-		public async Task Run(Message message)
+		public async Task Run<T>(T source, string corellationId)
 		{
 			var warmUpTopicsTask = _isNewEnvironment ? WarmUpTopics() : Task.CompletedTask;
-			var createSubscriptionsTask = queuesHandler.CreateTopicsSubscriptions(message.CorrelationId);
+			var createSubscriptionsTask = queuesHandler.CreateTopicsSubscriptions(corellationId);
 
-			var textForAnalysis = await textPreprocessor.FetchTextForAnalysis(message);
+			var textForAnalysis = await textPreprocessor.FetchTextForAnalysis(source);
 			paragraphsSender = await CreateParagraphsSender(string.Format(PARAGRAPHS_FORMAT, textForAnalysis.FromLang!)).ConfigureAwait(false);
 			var warmUpParagraphsTask = _isNewEnvironment ? WarmUpParagraphs() : Task.CompletedTask;
 
 			_isNewEnvironment = false;
 
-			var corellationId = message.CorrelationId;
-			var properties = message.UserProperties;
-
-			await SendMessages(TextPreprocessor.CreateMessages(textForAnalysis, corellationId, properties)).ConfigureAwait(false);
+			await SendMessages(TextPreprocessor.CreateMessages(textForAnalysis, corellationId)).ConfigureAwait(false);
 			await createSubscriptionsTask.ConfigureAwait(false);
 			await warmUpTopicsTask.ConfigureAwait(false);
+			await warmUpParagraphsTask.ConfigureAwait(false);
 		}
 
 		private Task WarmUpParagraphs() => paragraphsSender!.SendMessageAsync(warmUpMessage);

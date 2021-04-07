@@ -28,7 +28,8 @@ namespace BookwormFunctions.Queue
 			log.LogInformation($"C# ServiceBus queue trigger function processed message: {message}");
 			try
 			{
-				await _porter.Run(message).ConfigureAwait(false);
+				var correlationId = string.IsNullOrWhiteSpace(message.CorrelationId) ? Guid.NewGuid().ToString() : message.CorrelationId;
+				await _porter.Run(message, correlationId).ConfigureAwait(false);
 			}
 			catch (Azure.Messaging.ServiceBus.ServiceBusException ex) when (ex.Reason == ServiceBusFailureReason.MessagingEntityAlreadyExists)
 			{
